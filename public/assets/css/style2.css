@@ -1,0 +1,157 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+body{
+    display: flex;
+    justify-content: center;
+}
+.geral{
+    display: flex;
+    width: 100%;
+    background-color: #fff;
+    box-shadow: 0 -8px 8px rgb(0 0 0 / 10%);
+    flex-direction: column;
+}
+
+.header{
+    display: flex;
+    padding:25px;
+    flex:1;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #ca8741;
+    border-bottom: 5px solid #fff;
+}
+
+.header img {
+    width: 233px;
+    height: 78px;
+}
+
+.body{
+    background-color: #fff;
+    
+    display: flex;
+    flex-direction: row;
+}
+
+.bodyA{
+    flex:1;
+    color: #000;
+    
+
+}
+
+.bodyATitle{
+    display: flex;
+    flex:1;
+    padding: 25px 0px 0px 25px;
+    font-weight: bold;
+    font-size: 1.643rem;
+    text-shadow: 0 2px 2px rgb(0 0 0 / 20%);
+}
+.bodyAConteudo{
+    color: #5a6577;
+    font-size: 12px;
+    padding:20px;
+
+}
+.bodyB{
+    flex:1;
+    padding:25px;
+    
+}
+
+.formulario{
+    color: #5a6577;
+    font-weight: bold;
+    font-size: 13px;
+    flex:1;
+    padding:15px;
+    border-radius: 10px;
+    background-color: #fff;
+    box-shadow: 0 -8px 8px rgb(0 0 0 / 10%);
+}
+
+footer{
+    background: url(../img/bg-footer.jpg) center center / cover no-repeat;
+    border-top: 5px solid #fff;
+}
+
+.fConteudo{
+    display: flex;
+    padding:30px;
+    flex-direction: row;
+
+}
+.fBox{
+    flex:1;
+    padding:20px;
+}
+
+.fLogo{
+    width:142px;
+    height: 125px;
+    background-color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.fLogo img{
+    width: 126px;
+}
+
+footer .fConteudo .fBox h3 {
+    
+    width: 100%;
+    float: left;
+    color: #fbd025;
+    font-size: 1.286rem;
+    margin-bottom: 10px;
+    font-weight: bold;
+    font-family: 'Roboto Condensed', sans-serif;
+}
+footer .fConteudo .fBox > p, footer .fConteudo .fBox > a {
+    width: 100%;
+    float: left;
+    color: #fff;
+    word-wrap: break-word;
+    font-family: 'Roboto Condensed', sans-serif;
+}
+
+footer .dev {
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.2);
+    padding: 20px 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  
+}
+
+footer .dev p {
+    color: #fff;
+    font-size: 1rem;
+}
+
+
+.veloster{
+    display: flex;
+    flex-direction: row;
+   
+}
+
+.veloster a {
+    color: #fff;
+}
+
+.documento-min{
+width:100%;
+display: flex;
+justify-content: flex-end;
+padding-right: 200px;
+}
