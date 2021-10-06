@@ -7,6 +7,8 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\LocalityController;
 
+use App\Http\Controllers\Admin\HomeController;
+
 Route::get('/ping', function() {
     return ['pong' => true];
 });
@@ -38,3 +40,5 @@ Route::post('/user/delappointments/{id}', [UserController::class ,'delappointmen
 Route::get('/flocality/{id}', [LocalityController::class, 'locality']);
 Route::get('/fcheckuseryes/{id}', [LocalityController::class, 'fcheckuseryes']);
 Route::get('/fcheckuserno/{id}', [LocalityController::class, 'fcheckuserno']);
+
+Route::get('/adv', [HomeController::class, 'adv']);

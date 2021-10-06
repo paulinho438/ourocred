@@ -15,7 +15,7 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="d-flex bd-highlight">
-                                            <button onclick="location.href='{{ url('painel/planilha/2020') }}'" class="mb-2 mr-2 btn btn-gradient-success">VOLTAR
+                                            <button onclick="location.href='{{ url('painel/planilha/2021/novas_vendas_2021') }}'" class="mb-2 mr-2 btn btn-gradient-success">VOLTAR
                                             </button>
                                         </div>
                                     </div>
@@ -24,7 +24,7 @@
                                     <div class="col-lg-12 col-md-12">
                                         <div class="main-card mb-3 card">
                                             <div class="card-body">
-                                            <form action="{{url('painel/planilha/2020/novo')}}" method="post" enctype="multipart/form-data">
+                                            <form action="{{url('painel/planilha/2021/novas_vendas_2021/novo')}}" method="post" enctype="multipart/form-data">
                                                 @csrf
                                                 <div id="smartwizard">
                                                     <ul class="forms-wizard">
@@ -84,6 +84,19 @@
                                                                     <div data-parent="#accordion" id="collapseOne"
                                                                          aria-labelledby="headingOne" class="collapse show">
                                                                         <div class="card-body">
+                                                                            <div class="form-row">
+                                                                                <div class="col-md-4">
+                                                                                    <div class="position-relative form-group">
+                                                                                        <label for="examplePassword22">SELECIONE O USUARIO</label>
+                                                                                        <select name="usuario" class="multiselect-dropdown form-control">
+                                                                                            <option value="Indefinido">Selecione o usuário</option>
+                                                                                            <option value="FABIO.BA">FABIO.BA</option>
+                                                                                            <option value="FONTES13600T ">FONTES13600T </option>
+                                                                                        </select>
+                                                                                    </div>
+                                                                                </div>
+                                                                                
+                                                                            </div>
                                                                             <div class="form-row">
                                                                                 <div class="col-md-2">
                                                                                     <div class="position-relative form-group">

@@ -125,6 +125,13 @@
                                         </i>Novo Cliente
                                     </a>
                                 </li>
+                                <li class="app-sidebar__heading">MARKETING</li>
+                                <li >
+                                    <a class="<?php echo ($menu_principal == 'Campanha')? 'mm-active' : '';?>" href="{{ url('/painel/campanha') }}">
+                                        <i class="metismenu-icon pe-7s-smile">
+                                        </i>Campanha
+                                    </a>
+                                </li>
                                 <li class="app-sidebar__heading">TELMA MAGALHAES</li>
                                 <li class="<?php echo ($menu_principal == 'Planilhas')? 'mm-active' : '';?>">
                                     <a href="#">
@@ -133,11 +140,35 @@
                                         <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
                                     </a>
                                     <ul>
-                                        <li>
-                                            <a href="">
-                                                <i class="metismenu-icon">
-                                                </i>2021
+                                        <li
+                                            
+                                            
+                                            
+                                            
+                                            
+                                            
+                                        >
+                                            <a href="#">
+                                                <i class="metismenu-icon"></i>
+                                                2021
+                                                <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
                                             </a>
+                                            <ul
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                            >
+                                                <li>
+                                                    <a  class="<?php echo ($menu_secundario == 'NOVAS_VENDAS_2021')? 'mm-active' : '';?>" href="{{ url('/painel/planilha/2021/novas_vendas_2021') }}">
+                                                        <i class="metismenu-icon">
+                                                        </i>NOVAS VENDAS 2021
+                                                    </a>
+                                                </li>
+                                               
+                                            </ul>
                                         </li>
                                         <li >
                                             <a class="<?php echo ($menu_secundario == 'Planilhas-2020')? 'mm-active' : '';?>"" href="{{ url('/painel/planilha/2020') }}">

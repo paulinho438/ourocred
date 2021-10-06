@@ -47,5 +47,13 @@ Route::prefix('painel')->group(function(){
     Route::get('planilha/2020', [HomeController::class, 'planilha2020']);
     Route::get('planilha/2020/novo', [HomeController::class, 'planilha2020Novo']);
     Route::post('planilha/2020/novo', [HomeController::class, 'planilha2020NovoAction']);
+    Route::get('planilha/2020/delete/{id}', [HomeController::class, 'planilha2020Delete']);
+
+    Route::get('planilha/2021/novas_vendas_2021', [HomeController::class, 'planilha2021NovasVendas']);
+    Route::get('planilha/2021/novas_vendas_2021/novo', [HomeController::class, 'planilha2021NovasVendasNovo']);
+    Route::post('planilha/2021/novas_vendas_2021/novo', [HomeController::class, 'planilha2021NovasVendasNovoAction']);
+    Route::get('planilha/2021/novas_vendas_2021/delete/{id}', [HomeController::class, 'planilha2021NovasVendasDelete']);
+
+    Route::get('campanha', [HomeController::class, 'campanha']);
 
 });

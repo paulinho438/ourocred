@@ -60,7 +60,7 @@
                                 @csrf
                                     <div class="form-row">
                                         <div class="col-md-6">
-                                            <div class="position-relative form-group"><label for="exampleEmail" class="">CPF</label><input name="cpf" placeholder="Digite seu CPF" type="text" class="form-control"></div>
+                                            <div class="position-relative form-group"><label for="exampleEmail" class="">USUARIO</label><input name="cpf" placeholder="Digite seu usuario" type="text" class="form-control"></div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="position-relative form-group"><label for="examplePassword" class="">SENHA</label><input name="password" id="examplePassword" placeholder="Digite sua senha" type="password"
