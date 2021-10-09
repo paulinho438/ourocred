@@ -16,6 +16,8 @@ use App\Models\Telma2020;
 use App\Models\PlanilhaVendas;
 
 use App\Models\Clientes;
+use App\Models\Campanha;
+use App\Models\CampanhaClientes;
 use App\Models\ClientesBancos;
 use App\Models\ClientesBeneficio;
 use App\Models\ClientesCartao;
@@ -27,15 +29,17 @@ use App\Models\ClientesTelefone;
 use App\Exports\AgendamentosExport;
 use Maatwebsite\Excel\Facades\Excel;
 
+use Illuminate\Support\Facades\DB;
+
 class HomeController extends Controller
 {
     public function __construct(Request $request){
-        
+
     }
 
     public function esqueci(Request $request){
         $array = ['error'=>'', 'erro' => ''];
-        
+
         if($request->input('token')){
             $userToken = UsersToken::where('hash', $request->input('token'))
                                     ->where('used', 0)
@@ -56,7 +60,7 @@ class HomeController extends Controller
             'password' => 'required|digits_between:5,6|numeric',
             'password_confirmation' => 'required'
         ]);
-        
+
         if(!$validator->fails()) {
             $userToken = UsersToken::where('hash', $request->input('token'))
                                     ->where('used', 0)
@@ -65,21 +69,21 @@ class HomeController extends Controller
                 $array['error'] = 'Token inválido ou usado!';
                 return view('admin.esqueci', $array);
             }
-           
+
                 $userToken->used = 1;
                 $userToken->save();
-    
+
                 $user = User::find($userToken->id_user);
                 $user->password = password_hash($request->input('password'), PASSWORD_DEFAULT);
                 $user->save();
-    
+
                 $array['error'] = 'Senha alterada com sucesso !';
-           
+
         }else{
             return redirect('/esqueciminhasenha?token='.$request->input('token'))->withErrors($validator);
         }
-        
-        
+
+
         return view('admin.esqueci', $array);
     }
 
@@ -93,29 +97,67 @@ class HomeController extends Controller
             'menu_secundario' => 'Home',
             'title' => 'Home'
         ];
-       
-        
-      
-        
-      
+
+
+
+
+
         return view('admin.home', $data);
     }
-    
+
     public function campanha(){
       if (!session()->exists('token')) {
           return redirect()->route('login');
       }
+      $user = session()->get('user');
       $data = [
-          'user' => session()->get('user'),
+          'user' => $user,
           'menu_principal' => 'Campanha',
           'menu_secundario' => '-',
           'title' => 'Campanha',
-          'planilha' => []
+          'campanha' => []
       ];
 
-      // $data['planilha'] = PlanilhaVendas::where('excluido', 0)->get();
+      $data['campanha'] = DB::table('campanha')
+            ->join('users', 'users.id', '=', 'campanha.id_marketing')
+            ->select('campanha.*', 'users.name as nome_marketing')
+            ->where('status', 0)
+            ->where('id_marketing', $user->id)
+            ->get();
+
       return view('admin.campanha', $data);
-  }
+    }
+
+    public function campanhaId(Request $request, $id){
+      if (!session()->exists('token')) {
+          return redirect()->route('login');
+      }
+      $user = session()->get('user');
+      $data = [
+          'user' => $user,
+          'menu_principal' => 'Campanha',
+          'menu_secundario' => '-',
+          'title' => 'Campanha',
+          'campanha_Cliente' => [],
+      ];
+
+      
+
+     
+      $data['campanha_Cliente'] = CampanhaClientes::where('id_campanha', $id)->get();
+
+      for($q=0; $q<count($data['campanha_Cliente']); $q++){
+        $data['campanha_Cliente'][$q]['clientes'] = Clientes::find($data['campanha_Cliente'][$q]['id_cliente']);
+        $data['campanha_Cliente'][$q]['clientes_beneficio'] = ClientesBeneficio::where('id_cliente', $data['campanha_Cliente'][$q]['id_cliente'])->get();
+        $data['campanha_Cliente'][$q]['clientes_cartao'] = ClientesCartao::where('id_cliente', $data['campanha_Cliente'][$q]['id_cliente'])->get();
+        $data['campanha_Cliente'][$q]['clientes_contrato'] = ClientesContrato::where('id_cliente', $data['campanha_Cliente'][$q]['id_cliente'])->get();
+        $data['campanha_Cliente'][$q]['clientes_endereco'] = ClientesEndereco::where('id_cliente', $data['campanha_Cliente'][$q]['id_cliente'])->get();
+        $data['campanha_Cliente'][$q]['clientes_senhas'] = ClientesSenhas::where('id_cliente', $data['campanha_Cliente'][$q]['id_cliente'])->get();
+        $data['campanha_Cliente'][$q]['clientes_telefone'] = ClientesTelefone::where('id_cliente', $data['campanha_Cliente'][$q]['id_cliente'])->get();
+      }
+     
+      return view('admin.campanhaId', $data);
+    }
     public function planilha2021NovasVendas(){
         if (!session()->exists('token')) {
             return redirect()->route('login');
@@ -143,7 +185,7 @@ class HomeController extends Controller
             'title' => 'Planilha Novas Vendas 2021',
         ];
 
-        
+
         return view('admin.planilhavendasnovo', $data);
     }
 
@@ -154,7 +196,7 @@ class HomeController extends Controller
         $planilha = PlanilhaVendas::find($id);
         $planilha->excluido = 1;
         $planilha->save();
-        
+
         return redirect('/painel/planilha/2021/novas_vendas_2021');
     }
 
@@ -182,7 +224,7 @@ class HomeController extends Controller
         return view('admin.planilha2020', $data);
     }
 
-    
+
 
     public function planilha2020Novo(){
         if (!session()->exists('token')) {
@@ -195,7 +237,7 @@ class HomeController extends Controller
             'title' => 'Planilha 2020'
         ];
 
-        
+
         return view('admin.planilha2020novo', $data);
     }
 
@@ -206,7 +248,7 @@ class HomeController extends Controller
         $planilha = Telma2020::find($id);
         $planilha->excluido = 1;
         $planilha->save();
-        
+
         return redirect('/painel/planilha/2020');
     }
 
@@ -258,12 +300,12 @@ class HomeController extends Controller
     }
 
     public function checkN(Request $request) {
-        
+
         $appointments = UserAppointment::find($request->input('agendamento_id'));
         $appointments->status = 2;
         $appointments->save();
         return redirect()->route('local', ['id' => $request->input('local_id')]);
-        
+
     }
 
     public function addContrato() {
@@ -272,7 +314,7 @@ class HomeController extends Controller
 
     public function addContratoAction(Request $request) {
         $array = ['error' => ''];
-        
+
         $validator = Validator::make($request->all(), [
             'nome' => 'required',
             'telefone' => 'required',
@@ -288,7 +330,7 @@ class HomeController extends Controller
             'agencia' => 'required',
             'tipodeconta' => 'required',
             'conta'
-           
+
         ]);
 
         if(!$validator->fails()) {
@@ -296,7 +338,7 @@ class HomeController extends Controller
             Contratos::create($request->all());
 
             return redirect('/painel');
-            
+
         } else {
             $array['error'] = $validator->errors();
             return $array;
@@ -309,7 +351,7 @@ class HomeController extends Controller
         $array = array();
         $locality = Locality::find($id);
         $array['data'] = $locality;
-        
+
         $days = array();
         $req = LocalityAvailability::where('id_locality', $locality->id)->get();
         foreach($req as $item){
@@ -330,7 +372,7 @@ class HomeController extends Controller
             6 => ['slug' => 'csabado', 'slug2' => 'tsabado', 'name' => 'Sabado', 'custom' => 'customSwitch7', 'text' => 'textarea7']
         ];
         // print_r($days);
-        // // $array['availabilitys'] =  
+        // // $array['availabilitys'] =
         // echo $locality->name;
         // echo "<pre>";
         // print_r($array);
@@ -343,15 +385,15 @@ class HomeController extends Controller
     public function editLocalAction($id, Request $request){
         $array = ['error' => ''];
 
-        
-       
+
+
         $validator = Validator::make($request->all(), [
             'name' => 'required',
             'cep' => 'required',
             'address' => 'required',
             'dataInicio' => 'required',
             'dataFinal' => 'required'
-           
+
         ]);
 
         if(!$validator->fails()) {
@@ -362,22 +404,22 @@ class HomeController extends Controller
                 $upload = $request->image->move(public_path('/storage/localitys'), $nameFile);
                 $locality->avatar = $nameFile;
             }
-            
-          
+
+
             $dataInicio = str_replace("/", "-", $request->input('dataInicio'));
             $dataFinal = str_replace("/", "-", $request->input('dataFinal'));
-            
-            
+
+
 
             $locality->name = $request->input('name');
             $locality->address = $request->input('address');
             $locality->cep = $request->input('cep');
-            
+
             $locality->dataInicio = date('Y-m-d', strtotime($dataInicio));
             $locality->dataFinal = date('Y-m-d', strtotime($dataFinal));
             $locality->save();
 
-            
+
             if($request->input('cdomingo')){
                 if($request->input('cdomingo') == 'on'){
                     $create0 = new LocalityAvailability();
@@ -488,7 +530,7 @@ class HomeController extends Controller
                 }
             }
             return redirect('/painel');
-            
+
         } else {
             $array['error'] = $validator->errors();
             return $array;
@@ -510,7 +552,7 @@ class HomeController extends Controller
         return view('admin.relatorio', $array);
     }
 
-    
+
 
     public function adv() {
         $array = [
@@ -8737,7 +8779,7 @@ class HomeController extends Controller
             }
 
             ClientesContrato::insert($contratos);
-            
+
             $telefones = [];
 
             for($q=0; $q<count($item['FoneHot']); $q++){
@@ -8748,7 +8790,7 @@ class HomeController extends Controller
             }
 
             ClientesTelefone::insert($telefones);
-            
+
 
             $beneficio = [
                 'id_cliente' => $novoCliente->id,
@@ -8774,7 +8816,7 @@ class HomeController extends Controller
 
             ClientesEndereco::create($endereco);
 
-          
+
             $cartao = [
                 'id_cliente' => $novoCliente->id,
                 'cartao' => $item['cartao']['cartao'],
@@ -8797,7 +8839,7 @@ class HomeController extends Controller
         $array = array();
         if(!empty($request->input('dataInicio')) && !empty($request->input('dataFinal'))){
 
-        
+
             $dataInicio = date('Y-m-d', strtotime(str_replace("/", "-", $request->input('dataInicio'))));
             $dataFinal = date('Y-m-d', strtotime(str_replace("/", "-", $request->input('dataFinal'))));
             $locality = [];
@@ -8809,14 +8851,14 @@ class HomeController extends Controller
                     date($dataFinal).' 23:59:59'
                 ])
                 ->where('comorbidade', $request->input('comorbidade'))
-                ->get(); 
+                ->get();
 
                     if($request->input('excel') == 'on'){
                         $export = new AgendamentosExport([
                             ['ID', 'Nome', 'CPF', 'Nascimento', 'Telefone', 'CEP', 'Cidade', 'Endereço', 'Bairro', 'Altura', 'Peso', 'E-Mail', 'Comorbidade'],$array['vacina']
-                            
+
                         ]);
-                    
+
                         return Excel::download($export, date('d-m-Y').'.xlsx');
                     }else{
                         return view('admin.print', $array);
@@ -8828,14 +8870,14 @@ class HomeController extends Controller
                             date($dataInicio).' 00:00:00',
                             date($dataFinal).' 23:59:59'
                         ])
-                        ->get(); 
+                        ->get();
 
                 if($request->input('excel') == 'on'){
                     $export = new AgendamentosExport([
                         ['ID', 'Nome', 'CPF', 'Nascimento', 'Telefone', 'CEP', 'Cidade', 'Endereço', 'Bairro', 'Altura', 'Peso', 'E-Mail', 'Comorbidade'],$array['vacina']
-                        
+
                     ]);
-                
+
                     return Excel::download($export, date('d-m-Y').'.xlsx');
                 }else{
                     return view('admin.print', $array);
@@ -8848,28 +8890,28 @@ class HomeController extends Controller
             if(!empty($request->input('comorbidade'))){
 
                 $array['vacina'] = Vacina::where('comorbidade', $request->input('comorbidade'))
-                ->get(); 
+                ->get();
 
                     if($request->input('excel') == 'on'){
                         $export = new AgendamentosExport([
                             ['ID', 'Nome', 'CPF', 'Nascimento', 'Telefone', 'CEP', 'Cidade', 'Endereço', 'Bairro', 'Altura', 'Peso', 'E-Mail', 'Comorbidade'],$array['vacina']
-                            
+
                         ]);
-                    
+
                         return Excel::download($export, date('d-m-Y').'.xlsx');
                     }else{
                         return view('admin.print', $array);
                     }
 
             } else {
-                $array['vacina'] = Vacina::all(); 
+                $array['vacina'] = Vacina::all();
 
                 if($request->input('excel') == 'on'){
                     $export = new AgendamentosExport([
                         ['ID', 'Nome', 'CPF', 'Nascimento', 'Telefone', 'CEP', 'Cidade', 'Endereço', 'Bairro', 'Altura', 'Peso', 'E-Mail', 'Comorbidade'],$array['vacina']
-                        
+
                     ]);
-                
+
                     return Excel::download($export, date('d-m-Y').'.xlsx');
                 }else{
                     return view('admin.print', $array);
@@ -8878,7 +8920,7 @@ class HomeController extends Controller
             }
 
         }
-        
+
 
     }
 

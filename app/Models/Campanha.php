@@ -12,10 +12,11 @@ class Campanha extends Model
     public $timestamps = false;
     protected $fillable = [
         'id_marketing',
-        'id_operador',
+        'nome_operador',
         'entregues',
         'atendidos',
         'dataCriacao',
         'dataFinalizacao',
+        'status'
     ];
 }

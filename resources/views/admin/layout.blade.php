@@ -15,9 +15,9 @@
     <link rel="stylesheet" href="{{url('ProAssets/css/base.min.css')}}">
 
 </head>
-<body>
+<body class="element-block-example">
 <div class="app-container app-theme-gray">
-        <div class="app-main">
+        <div class="app-main ">
             <div class="app-sidebar-wrapper">
                 <div class="app-sidebar sidebar-shadow">
                     <div class="app-header__logo">
@@ -631,6 +631,21 @@
                     @yield('content')
                     </div>
                 </div>
+                <div class="body-block-example-1 d-none">
+                    <div class="loader bg-transparent no-shadow p-0">
+                        <div class="ball-grid-pulse">
+                            <div class="bg-white"></div>
+                            <div class="bg-white"></div>
+                            <div class="bg-white"></div>
+                            <div class="bg-white"></div>
+                            <div class="bg-white"></div>
+                            <div class="bg-white"></div>
+                            <div class="bg-white"></div>
+                            <div class="bg-white"></div>
+                            <div class="bg-white"></div>
+                        </div>
+                    </div>
+                </div>
                 <div class="app-wrapper-footer">
                     <div class="app-footer">
                         <div class="app-footer__inner">
@@ -979,6 +994,7 @@
                     </div>
                 </div>
             </div>
+            
         </div>
     <!--THEME OPTIONS START-->
     <div class="ui-theme-settings">
@@ -1681,6 +1697,17 @@
 
 <!--Tables Init-->
 <script src="{{url('ProAssets/js/scripts-init/tables.js')}}"></script>
+
+<script>
+    $( document ).ready(function() {
+        $.blockUI.defaults = {
+            timeout: 2000,
+            fadeIn: 200,
+            fadeOut: 400,
+        };
+        $.blockUI({message: $('.body-block-example-1')});
+    });
+</script>
 
 </body>
 </html>

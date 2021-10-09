@@ -55,5 +55,6 @@ Route::prefix('painel')->group(function(){
     Route::get('planilha/2021/novas_vendas_2021/delete/{id}', [HomeController::class, 'planilha2021NovasVendasDelete']);
 
     Route::get('campanha', [HomeController::class, 'campanha']);
+    Route::get('campanha/{id}', [HomeController::class, 'campanhaId']);
 
 });
