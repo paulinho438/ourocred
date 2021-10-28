@@ -55,6 +55,24 @@ Route::prefix('painel')->group(function(){
     Route::get('planilha/2021/novas_vendas_2021/delete/{id}', [HomeController::class, 'planilha2021NovasVendasDelete']);
 
     Route::get('campanha', [HomeController::class, 'campanha']);
-    Route::get('campanha/{id}', [HomeController::class, 'campanhaId']);
+    Route::get('campanha/{id}/atendimento/{id2}', [HomeController::class, 'campanhaId']);
+    Route::get('campanha/atendido/{id}', [HomeController::class, 'atendimentoAction']);
+
+    Route::post('campanha/finalizaratendimento', [HomeController::class, 'finalizaratendimentoAction']);
+
+    Route::get('funcionarios', [HomeController::class, 'funcionarios']);
+
+    Route::get('funcionarios/add', [HomeController::class, 'funcionariosAdd']);
+    Route::post('funcionarios/add', [HomeController::class, 'funcionariosAddAction']);
+
+    Route::get('funcionarios/edit/{id}', [HomeController::class, 'funcionariosEdit']);
+    Route::post('funcionarios/edit/{id}', [HomeController::class, 'funcionariosEditAction']);
+
+    Route::get('funcionarios/delete/{id}', [HomeController::class, 'funcionariosDel']);
+
+    Route::get('administrador/campanha', [HomeController::class, 'administradorCampanha']);
+
+    Route::get('administrador/campanha/add', [HomeController::class, 'administradorCampanhaAdd']);
+    Route::post('administrador/campanha/add', [HomeController::class, 'administradorCampanhaAddAction']);
 
 });

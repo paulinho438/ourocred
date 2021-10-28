@@ -12,7 +12,14 @@
                             <div class="app-inner-layout__content pt-1">
                                 <div class="tab-content">
                                     <div class="container-fluid">
-                                        
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="d-flex flex-row-reverse bd-highlight">
+                                                    <button onclick="location.href='{{ url('painel/administrador/campanha/add') }}'" class="mb-2 mr-2 btn btn-gradient-success">NOVA CAMPANHA
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="main-card mb-3 card">
@@ -39,10 +46,10 @@
                                                                     <td>{{$item->atendidos}}</td>
                                                                     <td>
                                                                         <div class="d-flex bd-highlight">
-                                                                            <button onclick="location.href='{{ url('painel/campanha') }}/{{$item->id}}/atendimento/1'" class="mb-2 mr-2 btn btn-gradient-success">GERENCIAR
+                                                                            <button onclick="location.href='{{ url('painel/campanha') }}/{{$item->id}}/atendimento/1'" class="mb-2 mr-2 btn btn-gradient-success">EDITAR
                                                                             </button>
-                                                                            {{-- <button onclick="location.href='{{ url('painel/planilha/2020/novo') }}'" class="mb-2 mr-2 btn btn-gradient-success">EDITAR
-                                                                            </button> --}}
+                                                                            <button onclick="location.href='{{ url('painel/planilha/2020/novo') }}'" class="mb-2 mr-2 btn btn-gradient-danger">EXCLUIR
+                                                                            </button>
                                                                         </div>
                                                                     </td>
                                                                 </tr>

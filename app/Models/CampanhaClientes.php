@@ -15,6 +15,9 @@ class CampanhaClientes extends Model
         'id_cliente',
         'observacao',
         'atendido',
-        'duracao'
+        'duracao',
+        'dataCriacao',
+        'dataRetorno',
+        'id_marketing'
     ];
 }

@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Session;
 
+use App\Models\UsersPermissions;
+
 class AuthController extends Controller
 {
     public function login(){
@@ -36,6 +38,19 @@ class AuthController extends Controller
         }
         session()->put('token', $token);
         session()->put('user', auth()->user());
+
+        #pegar as permissões de usuario
+
+        $permissoesArray = explode(',', auth()->user()->permissions);
+        $permissoes = UsersPermissions::whereIn('id', $permissoesArray)->select('slug')->get();
+
+        $newPermissoes = [];
+        foreach($permissoes as $item){
+            $newPermissoes[] = $item['slug'];
+        }
+
+        session()->put('permissoes', $newPermissoes);
+
         return redirect()->route('admin');
      
 

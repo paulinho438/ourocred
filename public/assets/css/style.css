@@ -2,3 +2,13 @@
     width: 239px;
     height: 96px;
 }
+
+.parcelasPagas {
+    background-color: #00ff004a;
+    width: 28px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50px;
+    height: 28px;
+}

@@ -13,6 +13,7 @@
     <meta name="msapplication-tap-highlight" content="no">
 
     <link rel="stylesheet" href="{{url('ProAssets/css/base.min.css')}}">
+    <link rel="stylesheet" href="{{url('assets/css/style.css')}}">
 
 </head>
 <body class="element-block-example">
@@ -43,88 +44,97 @@
                                     </ul>
                                 </li>
                                 
-                               
-                                <li class="app-sidebar__heading">ADMINISTRAÇÃO</li>
-                                <li>
-                                    <a href="#">
-                                        <i class="metismenu-icon pe-7s-diamond"></i>
-                                        OuroCred Matriz
-                                        <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
-                                    </a>
-                                    <ul>
-                                        <li>
-                                            <a href="">
-                                                <i class="metismenu-icon">
-                                                </i>Funcionários
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="">
-                                                <i class="metismenu-icon">
-                                                </i>Clientes
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="">
-                                                <i class="metismenu-icon">
-                                                </i>Rendimentos
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="">
-                                                <i class="metismenu-icon">
-                                                </i>Performance
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <i class="metismenu-icon pe-7s-diamond"></i>
-                                        OuroCred Filial
-                                        <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
-                                    </a>
-                                    <ul>
-                                        <li>
-                                            <a href="">
-                                                <i class="metismenu-icon">
-                                                </i>Funcionários
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="">
-                                                <i class="metismenu-icon">
-                                                </i>Clientes
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="">
-                                                <i class="metismenu-icon">
-                                                </i>Rendimentos
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="">
-                                                <i class="metismenu-icon">
-                                                </i>Performance
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
-
-                                <li class="app-sidebar__heading">CONSULTOR DE VENDAS</li>
-                                <li>
-                                    <a href="">
-                                        <i class="metismenu-icon pe-7s-smile">
-                                        </i>Atendimento
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="">
-                                        <i class="metismenu-icon pe-7s-users">
-                                        </i>Novo Cliente
-                                    </a>
-                                </li>
+                                @if (in_array("administrador", $permissoes))
+                                    <li class="app-sidebar__heading">ADMINISTRAÇÃO</li>
+                                    <li class="<?php echo ($menu_principal == 'ourocred_matriz')? 'mm-active' : '';?>">
+                                        <a href="#">
+                                            <i class="metismenu-icon pe-7s-diamond"></i>
+                                            OuroCred Matriz
+                                            <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
+                                        </a>
+                                        <ul>
+                                            <li class="<?php echo ($menu_secundario == 'funcionarios')? 'mm-active' : '';?>">
+                                                <a href="{{ url('/painel/funcionarios') }}">
+                                                    <i class="metismenu-icon">
+                                                    </i>Funcionários
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="">
+                                                    <i class="metismenu-icon">
+                                                    </i>Clientes
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="">
+                                                    <i class="metismenu-icon">
+                                                    </i>Rendimentos
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="">
+                                                    <i class="metismenu-icon">
+                                                    </i>Performance
+                                                </a>
+                                            </li>
+                                            <li class="<?php echo ($menu_secundario == 'campanhas')? 'mm-active' : '';?>">
+                                                <a href="{{ url('/painel/administrador/campanha') }}">
+                                                    <i class="metismenu-icon">
+                                                    </i>Campanhas
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <i class="metismenu-icon pe-7s-diamond"></i>
+                                            OuroCred Filial
+                                            <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
+                                        </a>
+                                        <ul>
+                                            <li>
+                                                <a href="">
+                                                    <i class="metismenu-icon">
+                                                    </i>Funcionários
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="">
+                                                    <i class="metismenu-icon">
+                                                    </i>Clientes
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="">
+                                                    <i class="metismenu-icon">
+                                                    </i>Rendimentos
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="">
+                                                    <i class="metismenu-icon">
+                                                    </i>Performance
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                @endif
+                                @if (in_array("consultor_de_vendas", $permissoes))
+                                    <li class="app-sidebar__heading">CONSULTOR DE VENDAS</li>
+                                    <li>
+                                        <a href="">
+                                            <i class="metismenu-icon pe-7s-smile">
+                                            </i>Atendimento
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="">
+                                            <i class="metismenu-icon pe-7s-users">
+                                            </i>Novo Cliente
+                                        </a>
+                                    </li>
+                                @endif
+                                @if (in_array("marketing", $permissoes))
                                 <li class="app-sidebar__heading">MARKETING</li>
                                 <li >
                                     <a class="<?php echo ($menu_principal == 'Campanha')? 'mm-active' : '';?>" href="{{ url('/painel/campanha') }}">
@@ -132,6 +142,8 @@
                                         </i>Campanha
                                     </a>
                                 </li>
+                                @endif
+                                @if (in_array("telma", $permissoes))
                                 <li class="app-sidebar__heading">TELMA MAGALHAES</li>
                                 <li class="<?php echo ($menu_principal == 'Planilhas')? 'mm-active' : '';?>">
                                     <a href="#">
@@ -178,6 +190,8 @@
                                         </li>
                                     </ul>
                                 </li>
+                                @endif
+                                
                             </ul>
                         </div>
                     </div>
@@ -1698,6 +1712,8 @@
 <!--Tables Init-->
 <script src="{{url('ProAssets/js/scripts-init/tables.js')}}"></script>
 
+<script src="{{url('assets/js/script.js')}}"></script>
+@yield('js')
 <script>
     $( document ).ready(function() {
         $.blockUI.defaults = {
